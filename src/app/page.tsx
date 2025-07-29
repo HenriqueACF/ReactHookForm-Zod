@@ -9,7 +9,7 @@ type  Inputs = {
 };
 
 export default function Home() {
-  const { handleSubmit, register } = useForm<Inputs>()
+  const { handleSubmit, register, formState:{errors} } = useForm<Inputs>()
   const handleFormSubmit: SubmitHandler<Inputs> = (data) => {
     console.log(data);
   }
@@ -22,6 +22,8 @@ export default function Home() {
               placeholder="Digite seu nome"
               className="border border-white p-3 text-black"
           />
+          {errors.name?.type==='required' && <p>Campo obrigatório</p>}
+          {errors.name?.type==='minLength' && <p>Este item precisa ter pelo menos 2 caracteres</p>}
 
           <input
               {...register('lastName')}
@@ -31,10 +33,11 @@ export default function Home() {
 
           <input
               type="number"
-              {...register('age', {required: true,  min:18, max:100})}
+              {...register('age', {required: 'Campo idade obrigatório',  min:18, max:100})}
               placeholder="Digite sua idade"
               className="block mt-4 border border-white p-3 text-black"
           />
+          {errors.age &&  <p>{errors.age.message}</p>}
 
           <input type="submit" value="Enviar" />
         </form>
