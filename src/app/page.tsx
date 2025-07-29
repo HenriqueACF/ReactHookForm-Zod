@@ -1,55 +1,36 @@
 "use client"
 
-import {Controller, SubmitHandler, useForm} from "react-hook-form";
-import {SignUpForm} from "@/types/SignUpForm";
-import { Input } from "@mui/material";
+import {Form, useForm} from "react-hook-form";
+
 
 
 export default function Home() {
-  const { handleSubmit, control } = useForm<SignUpForm>()
-  const handleFormSubmit: SubmitHandler<SignUpForm> = (data) => {
-    console.log(data);
-  }
-
+    const {register, control} = useForm();
+    
+    const handleSuccess = () => {
+        alert('sucesso')
+    }
+    const handleError = () => {
+        alert('erro')   
+    }
   return (
       <div className="container mx-auto">
-        <form onSubmit={handleSubmit(handleFormSubmit)}>
-            
-           <Controller
+          
+          <Form
             control={control}
-            name='name'
-            rules={{required: true, minLength: 3, maxLength: 100}}
-            render={({field, fieldState})=> 
-                <Input {...field}
-                    style={{backgroundColor: '#FFF'}}
-                    error={fieldState.invalid}
-                />
-           }
-           />
-
-            <Controller
-                control={control}
-                name='lastName'
-                render={({field})=>
-                    <Input {...field}
-                           style={{backgroundColor: '#FFF'}}
-                    />
-            }
-            />
-
-            <Controller
-                control={control}
-                name='age'
-                render={({field, fieldState})=>
-                    <Input {...field}
-                           style={{backgroundColor: '#FFF'}}
-                           error={fieldState.invalid}
-                    />
-            }
-                rules={{required: true, min: 18}}
-            />
-            <input type="submit" value="Enviar" />
-        </form>
+            action={'https://jsonplaceholder.typicode.com/posts'}
+            onSuccess={handleSuccess}
+            onError={handleError}
+          >
+              <input 
+                  {...register("title", {required: true})} className="mr-3 border border-white p-3 text-black"/>
+              <input 
+                  {...register("body", {required: true})} className="mr-3 border border-white p-3 text-black"/>
+              <input
+                  {...register("userId", {required: true})} className="border border-white p-3 text-black"/>
+              <button>Enviar</button>
+          </Form>
+          
       </div>
   );
 }
