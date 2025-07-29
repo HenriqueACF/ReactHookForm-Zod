@@ -1,8 +1,8 @@
 "use client"
 
-import {SubmitHandler, useForm} from "react-hook-form";
+import {Controller, SubmitHandler, useForm} from "react-hook-form";
 import {SignUpForm} from "@/types/SignUpForm";
-import {Input} from "@/components/Input";
+import { Input } from "@mui/material";
 
 
 export default function Home() {
@@ -14,29 +14,41 @@ export default function Home() {
   return (
       <div className="container mx-auto">
         <form onSubmit={handleSubmit(handleFormSubmit)}>
-          
-          <Input
+            
+           <Controller
             control={control}
-            name="name"
-            rules={
-              {required: true, minLength:2, maxLength:50}
+            name='name'
+            rules={{required: true, minLength: 3, maxLength: 100}}
+            render={({field, fieldState})=> 
+                <Input {...field}
+                    style={{backgroundColor: '#FFF'}}
+                    error={fieldState.invalid}
+                />
+           }
+           />
+
+            <Controller
+                control={control}
+                name='lastName'
+                render={({field})=>
+                    <Input {...field}
+                           style={{backgroundColor: '#FFF'}}
+                    />
             }
-          />
+            />
 
-          <Input
-              control={control}
-              name="lastName"
-          />
-
-          <Input
-              control={control}
-              name="age"
-              rules={
-                {required: 'Campo idade obrigatório',  min:18, max:100}
-              }
-          />
-
-          <input type="submit" value="Enviar" />
+            <Controller
+                control={control}
+                name='age'
+                render={({field, fieldState})=>
+                    <Input {...field}
+                           style={{backgroundColor: '#FFF'}}
+                           error={fieldState.invalid}
+                    />
+            }
+                rules={{required: true, min: 18}}
+            />
+            <input type="submit" value="Enviar" />
         </form>
       </div>
   );

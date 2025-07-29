@@ -13,6 +13,11 @@ export const Input = (props: UseControllerProps<SignUpForm>) => {
                 className={`border ${fieldState.invalid ? 'border-red' : 'border-white'} p-3 text-black`}
             />
             {fieldState.error?.type === 'required' && <p>Campo Obrigatório.</p> }
+            {fieldState.error?.type === 'minLength' && <p>O tamanho minimo é de 2 caracteres.</p> }
+            {fieldState.error?.type === 'min' && <p>Valor minimo exigido.</p> }
+            {fieldState.error?.type === 'max' && <p>Valor maximo exigido.</p> }
+            {fieldState.error  && <p>teste</p> }
+            
         </div>
     )
 }
